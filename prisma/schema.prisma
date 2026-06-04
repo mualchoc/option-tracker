@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Trade {
+  id                 Int       @id @default(autoincrement())
+  ticker             String
+  type               String
+  strike             Float
+  expiry             DateTime
+  premiumPaid        Float
+  entryDate          DateTime
+  exitPrice          Float?
+  exitDate           DateTime?
+  status             String    @default("OPEN")
+  notes              String?
+  tradeSetup         String?
+  contracts          Int       @default(1)
+  executedPrice      Float?
+  tradeFee           Float?
+  pnl                Float?
+  returnPct          Float?
+  holdDays           Int?
+  reinvestSuggestion Float?
+  exitFee            Float?
+  closeReason        String?
+  lessonLearnt       String?
+}
+
+model MonthlyFuel {
+  id             Int    @id @default(autoincrement())
+  month          String
+  yieldReceived  Float
+  deployed       Float
+  reinvestedBack Float
+}
