@@ -13,6 +13,7 @@ export async function PUT(
     ticker, type, contracts, strike, executedPrice,
     transactionDate, tradeFee, tradeSetup, notes,
     exitPrice, exitDate, exitFee, closeReason, lessonLearnt,
+    stockPrice, stockPriceAtExit,
   } = body;
 
   const existing = await prisma.trade.findUnique({ where: { id: tradeId } });
@@ -54,6 +55,7 @@ export async function PUT(
         tradeFee: tradeFee != null ? Number(tradeFee) : existing.tradeFee,
         tradeSetup: tradeSetup !== undefined ? (tradeSetup || null) : existing.tradeSetup,
         notes: notes !== undefined ? (notes || null) : existing.notes,
+        stockPrice: stockPrice !== undefined ? (stockPrice != null ? Number(stockPrice) : null) : existing.stockPrice,
         ...(existing.status === "CLOSED" && exitPrice != null && exitDate
           ? {
               exitPrice: Number(exitPrice),
@@ -61,6 +63,7 @@ export async function PUT(
               exitFee: exitFee != null ? Number(exitFee) : existing.exitFee,
               closeReason: closeReason !== undefined ? (closeReason || null) : existing.closeReason,
               lessonLearnt: lessonLearnt !== undefined ? (lessonLearnt || null) : existing.lessonLearnt,
+              stockPriceAtExit: stockPriceAtExit !== undefined ? (stockPriceAtExit != null ? Number(stockPriceAtExit) : null) : existing.stockPriceAtExit,
               pnl,
               returnPct,
               holdDays,
@@ -99,7 +102,7 @@ export async function PATCH(
   const { id } = await params;
   const tradeId = Number(id);
   const body = await req.json();
-  const { exitPrice, exitDate, exitFee, closeReason, lessonLearnt } = body;
+  const { exitPrice, exitDate, exitFee, closeReason, lessonLearnt, stockPriceAtExit } = body;
 
   if (exitPrice == null || !exitDate) {
     return NextResponse.json({ error: "exitPrice and exitDate are required" }, { status: 400 });
@@ -139,6 +142,7 @@ export async function PATCH(
         exitFee: exitF > 0 ? exitF : null,
         closeReason: closeReason ?? null,
         lessonLearnt: lessonLearnt ?? null,
+        stockPriceAtExit: stockPriceAtExit != null ? Number(stockPriceAtExit) : null,
       },
     });
 

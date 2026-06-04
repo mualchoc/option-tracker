@@ -26,9 +26,11 @@ export default async function TradePage({ params }: Props) {
     ["Exec. Price", `$${trade.premiumPaid}`],
     ["Transaction Date", new Date(trade.entryDate).toLocaleDateString("en-US")],
     ...(trade.tradeFee != null ? [["Trade Fee", `$${trade.tradeFee.toFixed(4)}`] as [string, string]] : []),
+    ...(trade.stockPrice != null ? [["Stock Price (entry)", `$${trade.stockPrice.toFixed(2)}`] as [string, string]] : []),
     ...(trade.exitDate ? [["Exit Date", new Date(trade.exitDate).toLocaleDateString("en-US")] as [string, string]] : []),
     ...(trade.holdDays != null ? [["Hold Days", `${trade.holdDays}d`] as [string, string]] : []),
     ...(trade.exitFee != null ? [["Exit Fee", `$${trade.exitFee.toFixed(4)}`] as [string, string]] : []),
+    ...(trade.stockPriceAtExit != null ? [["Stock Price (exit)", `$${trade.stockPriceAtExit.toFixed(2)}`] as [string, string]] : []),
   ];
 
   return (

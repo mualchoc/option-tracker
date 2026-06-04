@@ -90,7 +90,9 @@ export const TradeScalarFieldEnum = {
   reinvestSuggestion: 'reinvestSuggestion',
   exitFee: 'exitFee',
   closeReason: 'closeReason',
-  lessonLearnt: 'lessonLearnt'
+  lessonLearnt: 'lessonLearnt',
+  stockPrice: 'stockPrice',
+  stockPriceAtExit: 'stockPriceAtExit'
 } as const
 
 export type TradeScalarFieldEnum = (typeof TradeScalarFieldEnum)[keyof typeof TradeScalarFieldEnum]

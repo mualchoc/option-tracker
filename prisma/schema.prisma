@@ -30,6 +30,8 @@ model Trade {
   exitFee            Float?
   closeReason        String?
   lessonLearnt       String?
+  stockPrice         Float?
+  stockPriceAtExit   Float?
 }
 
 model MonthlyFuel {

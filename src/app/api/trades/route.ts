@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     ticker, type, strike, expiry,
     transactionDate, entryDate,
     contracts, executedPrice, tradeFee,
-    tradeSetup, notes,
+    tradeSetup, notes, stockPrice,
   } = body;
 
   if (!ticker || !type || strike == null || !expiry || executedPrice == null) {
@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
         tradeFee: tradeFee != null ? Number(tradeFee) : null,
         tradeSetup: tradeSetup ?? null,
         notes: notes ?? null,
+        stockPrice: stockPrice != null ? Number(stockPrice) : null,
       },
     });
     return NextResponse.json(trade, { status: 201 });

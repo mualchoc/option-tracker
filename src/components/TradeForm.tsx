@@ -219,6 +219,17 @@ export default function TradeForm(props: Props) {
             <Field label="Expiry Date" name="expiry" type="date" />
           </div>
 
+          {/* Stock Price (underlying) */}
+          <Field
+            label="Stock Price"
+            name="stockPrice"
+            type="number"
+            step="0.01"
+            placeholder="185.00"
+            required={false}
+            hint="(underlying stock price at entry)"
+          />
+
           {/* Transaction Date */}
           <Field
             label="Transaction Date"
@@ -312,6 +323,17 @@ export default function TradeForm(props: Props) {
             />
             <Field label="Exit Date" name="exitDate" type="date" defaultValue={today} />
           </div>
+
+          {/* Stock Price at Exit */}
+          <Field
+            label="Stock Price at Exit"
+            name="stockPriceAtExit"
+            type="number"
+            step="0.01"
+            placeholder="210.00"
+            required={false}
+            hint="(underlying stock price when closing)"
+          />
 
           {/* Exit Fee — math expression */}
           <div>

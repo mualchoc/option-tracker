@@ -151,6 +151,17 @@ export default function EditTradeForm({ trade }: { trade: Trade }) {
         </div>
       </div>
 
+      {/* Stock Price at Entry */}
+      <div>
+        <label className={labelCls}>
+          Stock Price
+          <span className="ml-1.5 normal-case text-neutral-600 font-normal">(underlying stock price at entry)</span>
+        </label>
+        <input name="stockPrice" type="number" step="0.01"
+          defaultValue={trade.stockPrice ?? ""}
+          placeholder="185.00" className={inputCls} />
+      </div>
+
       {/* Transaction Date */}
       <div>
         <label className={labelCls}>Transaction Date</label>
@@ -223,6 +234,17 @@ export default function EditTradeForm({ trade }: { trade: Trade }) {
                 <input name="exitDate" type="date"
                   defaultValue={toDateValue(trade.exitDate)} className={inputCls} />
               </div>
+            </div>
+
+            {/* Stock Price at Exit */}
+            <div className="mb-5">
+              <label className={labelCls}>
+                Stock Price at Exit
+                <span className="ml-1.5 normal-case text-neutral-600 font-normal">(underlying stock price when closing)</span>
+              </label>
+              <input name="stockPriceAtExit" type="number" step="0.01"
+                defaultValue={trade.stockPriceAtExit ?? ""}
+                placeholder="210.00" className={inputCls} />
             </div>
 
             {/* Exit Fee */}
