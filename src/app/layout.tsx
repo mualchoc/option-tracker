@@ -21,10 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Link href="/trades" className="text-neutral-400 hover:text-white transition-colors font-medium">
             Trades
           </Link>
-          <Link href="/trades/new" className="text-neutral-400 hover:text-white transition-colors font-medium">
-            + New Trade
-          </Link>
-          <Link href="/fuel" className="text-neutral-400 hover:text-white transition-colors font-medium">
+<Link href="/fuel" className="text-neutral-400 hover:text-white transition-colors font-medium">
             Fuel
           </Link>
           <Link href="/calendar" className="text-neutral-400 hover:text-white transition-colors font-medium">
