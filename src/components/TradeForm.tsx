@@ -381,16 +381,6 @@ export default function TradeForm(props: Props) {
                 />
               </div>
 
-              {/* Lessons Learnt */}
-              <div>
-                <label className={labelCls}>Lessons Learnt <span className="ml-1.5 normal-case text-neutral-600 font-normal">(optional)</span></label>
-                <textarea
-                  name="lessonLearnt" rows={3}
-                  placeholder="What do you want to remember about this trade?"
-                  className={`${inputCls} resize-none`}
-                />
-              </div>
-
               {/* Notes */}
               <div>
                 <label className={labelCls}>Notes <span className="ml-1.5 normal-case text-neutral-600 font-normal">(optional)</span></label>
