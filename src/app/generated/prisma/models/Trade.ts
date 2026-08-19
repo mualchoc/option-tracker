@@ -41,6 +41,8 @@ export type TradeAvgAggregateOutputType = {
   exitFee: number | null
   stockPrice: number | null
   stockPriceAtExit: number | null
+  vatAmount: number | null
+  exitVatAmount: number | null
 }
 
 export type TradeSumAggregateOutputType = {
@@ -58,6 +60,8 @@ export type TradeSumAggregateOutputType = {
   exitFee: number | null
   stockPrice: number | null
   stockPriceAtExit: number | null
+  vatAmount: number | null
+  exitVatAmount: number | null
 }
 
 export type TradeMinAggregateOutputType = {
@@ -85,6 +89,9 @@ export type TradeMinAggregateOutputType = {
   lessonLearnt: string | null
   stockPrice: number | null
   stockPriceAtExit: number | null
+  tradeKind: string | null
+  vatAmount: number | null
+  exitVatAmount: number | null
 }
 
 export type TradeMaxAggregateOutputType = {
@@ -112,6 +119,9 @@ export type TradeMaxAggregateOutputType = {
   lessonLearnt: string | null
   stockPrice: number | null
   stockPriceAtExit: number | null
+  tradeKind: string | null
+  vatAmount: number | null
+  exitVatAmount: number | null
 }
 
 export type TradeCountAggregateOutputType = {
@@ -139,6 +149,9 @@ export type TradeCountAggregateOutputType = {
   lessonLearnt: number
   stockPrice: number
   stockPriceAtExit: number
+  tradeKind: number
+  vatAmount: number
+  exitVatAmount: number
   _all: number
 }
 
@@ -158,6 +171,8 @@ export type TradeAvgAggregateInputType = {
   exitFee?: true
   stockPrice?: true
   stockPriceAtExit?: true
+  vatAmount?: true
+  exitVatAmount?: true
 }
 
 export type TradeSumAggregateInputType = {
@@ -175,6 +190,8 @@ export type TradeSumAggregateInputType = {
   exitFee?: true
   stockPrice?: true
   stockPriceAtExit?: true
+  vatAmount?: true
+  exitVatAmount?: true
 }
 
 export type TradeMinAggregateInputType = {
@@ -202,6 +219,9 @@ export type TradeMinAggregateInputType = {
   lessonLearnt?: true
   stockPrice?: true
   stockPriceAtExit?: true
+  tradeKind?: true
+  vatAmount?: true
+  exitVatAmount?: true
 }
 
 export type TradeMaxAggregateInputType = {
@@ -229,6 +249,9 @@ export type TradeMaxAggregateInputType = {
   lessonLearnt?: true
   stockPrice?: true
   stockPriceAtExit?: true
+  tradeKind?: true
+  vatAmount?: true
+  exitVatAmount?: true
 }
 
 export type TradeCountAggregateInputType = {
@@ -256,6 +279,9 @@ export type TradeCountAggregateInputType = {
   lessonLearnt?: true
   stockPrice?: true
   stockPriceAtExit?: true
+  tradeKind?: true
+  vatAmount?: true
+  exitVatAmount?: true
   _all?: true
 }
 
@@ -349,8 +375,8 @@ export type TradeGroupByOutputType = {
   id: number
   ticker: string
   type: string
-  strike: number
-  expiry: Date
+  strike: number | null
+  expiry: Date | null
   premiumPaid: number
   entryDate: Date
   exitPrice: number | null
@@ -370,6 +396,9 @@ export type TradeGroupByOutputType = {
   lessonLearnt: string | null
   stockPrice: number | null
   stockPriceAtExit: number | null
+  tradeKind: string
+  vatAmount: number | null
+  exitVatAmount: number | null
   _count: TradeCountAggregateOutputType | null
   _avg: TradeAvgAggregateOutputType | null
   _sum: TradeSumAggregateOutputType | null
@@ -399,8 +428,8 @@ export type TradeWhereInput = {
   id?: Prisma.IntFilter<"Trade"> | number
   ticker?: Prisma.StringFilter<"Trade"> | string
   type?: Prisma.StringFilter<"Trade"> | string
-  strike?: Prisma.FloatFilter<"Trade"> | number
-  expiry?: Prisma.DateTimeFilter<"Trade"> | Date | string
+  strike?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  expiry?: Prisma.DateTimeNullableFilter<"Trade"> | Date | string | null
   premiumPaid?: Prisma.FloatFilter<"Trade"> | number
   entryDate?: Prisma.DateTimeFilter<"Trade"> | Date | string
   exitPrice?: Prisma.FloatNullableFilter<"Trade"> | number | null
@@ -420,14 +449,17 @@ export type TradeWhereInput = {
   lessonLearnt?: Prisma.StringNullableFilter<"Trade"> | string | null
   stockPrice?: Prisma.FloatNullableFilter<"Trade"> | number | null
   stockPriceAtExit?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  tradeKind?: Prisma.StringFilter<"Trade"> | string
+  vatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  exitVatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
 }
 
 export type TradeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   ticker?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  strike?: Prisma.SortOrder
-  expiry?: Prisma.SortOrder
+  strike?: Prisma.SortOrderInput | Prisma.SortOrder
+  expiry?: Prisma.SortOrderInput | Prisma.SortOrder
   premiumPaid?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -447,6 +479,9 @@ export type TradeOrderByWithRelationInput = {
   lessonLearnt?: Prisma.SortOrderInput | Prisma.SortOrder
   stockPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrderInput | Prisma.SortOrder
+  tradeKind?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type TradeWhereUniqueInput = Prisma.AtLeast<{
@@ -456,8 +491,8 @@ export type TradeWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TradeWhereInput | Prisma.TradeWhereInput[]
   ticker?: Prisma.StringFilter<"Trade"> | string
   type?: Prisma.StringFilter<"Trade"> | string
-  strike?: Prisma.FloatFilter<"Trade"> | number
-  expiry?: Prisma.DateTimeFilter<"Trade"> | Date | string
+  strike?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  expiry?: Prisma.DateTimeNullableFilter<"Trade"> | Date | string | null
   premiumPaid?: Prisma.FloatFilter<"Trade"> | number
   entryDate?: Prisma.DateTimeFilter<"Trade"> | Date | string
   exitPrice?: Prisma.FloatNullableFilter<"Trade"> | number | null
@@ -477,14 +512,17 @@ export type TradeWhereUniqueInput = Prisma.AtLeast<{
   lessonLearnt?: Prisma.StringNullableFilter<"Trade"> | string | null
   stockPrice?: Prisma.FloatNullableFilter<"Trade"> | number | null
   stockPriceAtExit?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  tradeKind?: Prisma.StringFilter<"Trade"> | string
+  vatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  exitVatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
 }, "id">
 
 export type TradeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   ticker?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  strike?: Prisma.SortOrder
-  expiry?: Prisma.SortOrder
+  strike?: Prisma.SortOrderInput | Prisma.SortOrder
+  expiry?: Prisma.SortOrderInput | Prisma.SortOrder
   premiumPaid?: Prisma.SortOrder
   entryDate?: Prisma.SortOrder
   exitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -504,6 +542,9 @@ export type TradeOrderByWithAggregationInput = {
   lessonLearnt?: Prisma.SortOrderInput | Prisma.SortOrder
   stockPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrderInput | Prisma.SortOrder
+  tradeKind?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TradeCountOrderByAggregateInput
   _avg?: Prisma.TradeAvgOrderByAggregateInput
   _max?: Prisma.TradeMaxOrderByAggregateInput
@@ -518,8 +559,8 @@ export type TradeScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Trade"> | number
   ticker?: Prisma.StringWithAggregatesFilter<"Trade"> | string
   type?: Prisma.StringWithAggregatesFilter<"Trade"> | string
-  strike?: Prisma.FloatWithAggregatesFilter<"Trade"> | number
-  expiry?: Prisma.DateTimeWithAggregatesFilter<"Trade"> | Date | string
+  strike?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
+  expiry?: Prisma.DateTimeNullableWithAggregatesFilter<"Trade"> | Date | string | null
   premiumPaid?: Prisma.FloatWithAggregatesFilter<"Trade"> | number
   entryDate?: Prisma.DateTimeWithAggregatesFilter<"Trade"> | Date | string
   exitPrice?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
@@ -539,13 +580,16 @@ export type TradeScalarWhereWithAggregatesInput = {
   lessonLearnt?: Prisma.StringNullableWithAggregatesFilter<"Trade"> | string | null
   stockPrice?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
   stockPriceAtExit?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
+  tradeKind?: Prisma.StringWithAggregatesFilter<"Trade"> | string
+  vatAmount?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
+  exitVatAmount?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
 }
 
 export type TradeCreateInput = {
   ticker: string
   type: string
-  strike: number
-  expiry: Date | string
+  strike?: number | null
+  expiry?: Date | string | null
   premiumPaid: number
   entryDate: Date | string
   exitPrice?: number | null
@@ -565,14 +609,17 @@ export type TradeCreateInput = {
   lessonLearnt?: string | null
   stockPrice?: number | null
   stockPriceAtExit?: number | null
+  tradeKind?: string
+  vatAmount?: number | null
+  exitVatAmount?: number | null
 }
 
 export type TradeUncheckedCreateInput = {
   id?: number
   ticker: string
   type: string
-  strike: number
-  expiry: Date | string
+  strike?: number | null
+  expiry?: Date | string | null
   premiumPaid: number
   entryDate: Date | string
   exitPrice?: number | null
@@ -592,13 +639,16 @@ export type TradeUncheckedCreateInput = {
   lessonLearnt?: string | null
   stockPrice?: number | null
   stockPriceAtExit?: number | null
+  tradeKind?: string
+  vatAmount?: number | null
+  exitVatAmount?: number | null
 }
 
 export type TradeUpdateInput = {
   ticker?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  strike?: Prisma.FloatFieldUpdateOperationsInput | number
-  expiry?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  strike?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  expiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   premiumPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -618,14 +668,17 @@ export type TradeUpdateInput = {
   lessonLearnt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stockPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   stockPriceAtExit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
+  vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type TradeUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   ticker?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  strike?: Prisma.FloatFieldUpdateOperationsInput | number
-  expiry?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  strike?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  expiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   premiumPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -645,14 +698,17 @@ export type TradeUncheckedUpdateInput = {
   lessonLearnt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stockPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   stockPriceAtExit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
+  vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type TradeCreateManyInput = {
   id?: number
   ticker: string
   type: string
-  strike: number
-  expiry: Date | string
+  strike?: number | null
+  expiry?: Date | string | null
   premiumPaid: number
   entryDate: Date | string
   exitPrice?: number | null
@@ -672,13 +728,16 @@ export type TradeCreateManyInput = {
   lessonLearnt?: string | null
   stockPrice?: number | null
   stockPriceAtExit?: number | null
+  tradeKind?: string
+  vatAmount?: number | null
+  exitVatAmount?: number | null
 }
 
 export type TradeUpdateManyMutationInput = {
   ticker?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  strike?: Prisma.FloatFieldUpdateOperationsInput | number
-  expiry?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  strike?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  expiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   premiumPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -698,14 +757,17 @@ export type TradeUpdateManyMutationInput = {
   lessonLearnt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stockPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   stockPriceAtExit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
+  vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type TradeUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   ticker?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
-  strike?: Prisma.FloatFieldUpdateOperationsInput | number
-  expiry?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  strike?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  expiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   premiumPaid?: Prisma.FloatFieldUpdateOperationsInput | number
   entryDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   exitPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -725,6 +787,9 @@ export type TradeUncheckedUpdateManyInput = {
   lessonLearnt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stockPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   stockPriceAtExit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
+  vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
 }
 
 export type TradeCountOrderByAggregateInput = {
@@ -752,6 +817,9 @@ export type TradeCountOrderByAggregateInput = {
   lessonLearnt?: Prisma.SortOrder
   stockPrice?: Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrder
+  tradeKind?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrder
 }
 
 export type TradeAvgOrderByAggregateInput = {
@@ -769,6 +837,8 @@ export type TradeAvgOrderByAggregateInput = {
   exitFee?: Prisma.SortOrder
   stockPrice?: Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrder
 }
 
 export type TradeMaxOrderByAggregateInput = {
@@ -796,6 +866,9 @@ export type TradeMaxOrderByAggregateInput = {
   lessonLearnt?: Prisma.SortOrder
   stockPrice?: Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrder
+  tradeKind?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrder
 }
 
 export type TradeMinOrderByAggregateInput = {
@@ -823,6 +896,9 @@ export type TradeMinOrderByAggregateInput = {
   lessonLearnt?: Prisma.SortOrder
   stockPrice?: Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrder
+  tradeKind?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrder
 }
 
 export type TradeSumOrderByAggregateInput = {
@@ -840,22 +916,12 @@ export type TradeSumOrderByAggregateInput = {
   exitFee?: Prisma.SortOrder
   stockPrice?: Prisma.SortOrder
   stockPriceAtExit?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  exitVatAmount?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
-}
-
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type NullableFloatFieldUpdateOperationsInput = {
@@ -868,6 +934,18 @@ export type NullableFloatFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -917,6 +995,9 @@ export type TradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   lessonLearnt?: boolean
   stockPrice?: boolean
   stockPriceAtExit?: boolean
+  tradeKind?: boolean
+  vatAmount?: boolean
+  exitVatAmount?: boolean
 }, ExtArgs["result"]["trade"]>
 
 export type TradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -944,6 +1025,9 @@ export type TradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   lessonLearnt?: boolean
   stockPrice?: boolean
   stockPriceAtExit?: boolean
+  tradeKind?: boolean
+  vatAmount?: boolean
+  exitVatAmount?: boolean
 }, ExtArgs["result"]["trade"]>
 
 export type TradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -971,6 +1055,9 @@ export type TradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   lessonLearnt?: boolean
   stockPrice?: boolean
   stockPriceAtExit?: boolean
+  tradeKind?: boolean
+  vatAmount?: boolean
+  exitVatAmount?: boolean
 }, ExtArgs["result"]["trade"]>
 
 export type TradeSelectScalar = {
@@ -998,9 +1085,12 @@ export type TradeSelectScalar = {
   lessonLearnt?: boolean
   stockPrice?: boolean
   stockPriceAtExit?: boolean
+  tradeKind?: boolean
+  vatAmount?: boolean
+  exitVatAmount?: boolean
 }
 
-export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ticker" | "type" | "strike" | "expiry" | "premiumPaid" | "entryDate" | "exitPrice" | "exitDate" | "status" | "notes" | "tradeSetup" | "contracts" | "executedPrice" | "tradeFee" | "pnl" | "returnPct" | "holdDays" | "reinvestSuggestion" | "exitFee" | "closeReason" | "lessonLearnt" | "stockPrice" | "stockPriceAtExit", ExtArgs["result"]["trade"]>
+export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ticker" | "type" | "strike" | "expiry" | "premiumPaid" | "entryDate" | "exitPrice" | "exitDate" | "status" | "notes" | "tradeSetup" | "contracts" | "executedPrice" | "tradeFee" | "pnl" | "returnPct" | "holdDays" | "reinvestSuggestion" | "exitFee" | "closeReason" | "lessonLearnt" | "stockPrice" | "stockPriceAtExit" | "tradeKind" | "vatAmount" | "exitVatAmount", ExtArgs["result"]["trade"]>
 
 export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Trade"
@@ -1009,8 +1099,8 @@ export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: number
     ticker: string
     type: string
-    strike: number
-    expiry: Date
+    strike: number | null
+    expiry: Date | null
     premiumPaid: number
     entryDate: Date
     exitPrice: number | null
@@ -1030,6 +1120,9 @@ export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     lessonLearnt: string | null
     stockPrice: number | null
     stockPriceAtExit: number | null
+    tradeKind: string
+    vatAmount: number | null
+    exitVatAmount: number | null
   }, ExtArgs["result"]["trade"]>
   composites: {}
 }
@@ -1477,6 +1570,9 @@ export interface TradeFieldRefs {
   readonly lessonLearnt: Prisma.FieldRef<"Trade", 'String'>
   readonly stockPrice: Prisma.FieldRef<"Trade", 'Float'>
   readonly stockPriceAtExit: Prisma.FieldRef<"Trade", 'Float'>
+  readonly tradeKind: Prisma.FieldRef<"Trade", 'String'>
+  readonly vatAmount: Prisma.FieldRef<"Trade", 'Float'>
+  readonly exitVatAmount: Prisma.FieldRef<"Trade", 'Float'>
 }
     
 

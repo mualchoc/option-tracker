@@ -26,7 +26,9 @@ export default async function EditTradePage({ params }: Props) {
 
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white">
-          Edit Trade — {trade.ticker} {trade.type} ${trade.strike}
+          Edit Trade — {trade.ticker}
+          {trade.tradeKind !== "STOCK" && trade.type ? ` ${trade.type}` : ""}
+          {trade.strike != null ? ` $${trade.strike}` : ""}
         </h1>
         <p className="text-neutral-500 text-sm mt-0.5">
           Fix errors or add notes to this trade

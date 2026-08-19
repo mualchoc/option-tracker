@@ -85,9 +85,11 @@ export default function TradeTable({ trades }: Props) {
                     {t.type}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-neutral-300 tabular-nums">${t.strike}</td>
+                <td className="px-4 py-3 text-neutral-300 tabular-nums">
+                  {t.strike != null ? `$${t.strike}` : "—"}
+                </td>
                 <td className="px-4 py-3 text-neutral-500 tabular-nums whitespace-nowrap">
-                  {new Date(t.expiry).toLocaleDateString("en-US")}
+                  {t.expiry ? new Date(t.expiry).toLocaleDateString("en-US") : "—"}
                 </td>
                 <td className="px-4 py-3 text-neutral-300 tabular-nums">${t.premiumPaid}</td>
                 <td className="px-4 py-3 text-neutral-500 tabular-nums whitespace-nowrap">

@@ -11,8 +11,8 @@ model Trade {
   id                 Int       @id @default(autoincrement())
   ticker             String
   type               String
-  strike             Float
-  expiry             DateTime
+  strike             Float?
+  expiry             DateTime?
   premiumPaid        Float
   entryDate          DateTime
   exitPrice          Float?
@@ -32,6 +32,9 @@ model Trade {
   lessonLearnt       String?
   stockPrice         Float?
   stockPriceAtExit   Float?
+  tradeKind          String    @default("OPTION")
+  vatAmount          Float?
+  exitVatAmount      Float?
 }
 
 model MonthlyFuel {

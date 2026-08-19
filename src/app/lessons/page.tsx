@@ -35,7 +35,9 @@ export default async function LessonsPage() {
                 {/* Header row */}
                 <div className="flex items-center gap-3 mb-4 flex-wrap">
                   <h2 className="text-base font-bold text-white group-hover:text-blue-300 transition-colors">
-                    {trade.ticker} {trade.type} ${trade.strike}
+                    {trade.ticker}
+                    {trade.tradeKind !== "STOCK" && trade.type ? ` ${trade.type}` : ""}
+                    {trade.strike != null ? ` $${trade.strike}` : ""}
                   </h2>
 
                   {/* WIN / LOSS badge */}

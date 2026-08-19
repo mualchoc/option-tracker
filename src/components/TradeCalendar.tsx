@@ -6,8 +6,8 @@ import { useState } from "react";
 type TradeSummary = {
   id: number;
   ticker: string;
-  type: string;
-  strike: number;
+  type: string | null;
+  strike: number | null;
   entryDate: string;
   exitDate: string | null;
   status: string;
@@ -225,13 +225,15 @@ export default function TradeCalendar({ trades }: { trades: TradeSummary[] }) {
                   ? `${trade.pnl >= 0 ? "+" : ""}$${trade.pnl.toFixed(0)}`
                   : "";
 
-              const label = `${trade.ticker} ${trade.type} · ${totalDays}d${pnlText ? " · " + pnlText : ""}`;
+              const typeStr = trade.type ?? "";
+              const strikeStr = trade.strike != null ? ` $${trade.strike}` : "";
+              const label = `${trade.ticker}${typeStr ? ` ${typeStr}` : ""} · ${totalDays}d${pnlText ? " · " + pnlText : ""}`;
 
               return (
                 <div
                   key={trade.id}
                   onClick={() => router.push(`/trades/${trade.id}`)}
-                  title={`${trade.ticker} ${trade.type} $${trade.strike} — ${totalDays} days${pnlText ? " — " + pnlText : ""}`}
+                  title={`${trade.ticker}${typeStr ? ` ${typeStr}` : ""}${strikeStr} — ${totalDays} days${pnlText ? " — " + pnlText : ""}`}
                   style={{
                     position: "absolute",
                     top: top,

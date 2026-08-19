@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+function calcPnl(
+  kind: string,
+  exitP: number, execP: number, numContracts: number,
+  tradeFee: number, vatAmount: number, exitFee: number, exitVatAmount: number
+): number {
+  if (kind === "STOCK") {
+    return (exitP - execP) * numContracts - tradeFee - vatAmount - exitFee - exitVatAmount;
+  }
+  // OPTION
+  return (exitP - execP) * numContracts * 100 - tradeFee - exitFee;
+}
+
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,8 +23,8 @@ export async function PUT(
 
   const {
     ticker, type, contracts, strike, executedPrice,
-    transactionDate, tradeFee, tradeSetup, notes,
-    exitPrice, exitDate, exitFee, closeReason, lessonLearnt,
+    transactionDate, tradeFee, vatAmount, tradeSetup, notes,
+    exitPrice, exitDate, exitFee, exitVatAmount, closeReason, lessonLearnt,
     stockPrice, stockPriceAtExit,
   } = body;
 
@@ -20,10 +32,10 @@ export async function PUT(
   if (!existing) return NextResponse.json({ error: "Trade not found" }, { status: 404 });
 
   try {
-    const execP = executedPrice != null ? Number(executedPrice) : existing.premiumPaid;
+    const execP = executedPrice != null ? Number(executedPrice) : (existing.executedPrice ?? existing.premiumPaid);
     const numContracts = contracts != null ? Number(contracts) : (existing.contracts ?? 1);
+    const kind = existing.tradeKind ?? "OPTION";
 
-    // Recalculate P&L if trade is closed and exit fields provided
     let pnl = existing.pnl;
     let returnPct = existing.returnPct;
     let holdDays = existing.holdDays;
@@ -32,10 +44,15 @@ export async function PUT(
     if (existing.status === "CLOSED" && exitPrice != null && exitDate) {
       const exitP = Number(exitPrice);
       const exitD = new Date(exitDate);
-      const exitF = exitFee != null ? Number(exitFee) : 0;
-      const fee = tradeFee != null ? Number(tradeFee) : (existing.tradeFee ?? 0);
-      pnl = (exitP - execP) * numContracts * 100 - exitF - fee;
-      returnPct = (pnl / (execP * numContracts * 100)) * 100;
+      const fee    = tradeFee != null ? Number(tradeFee) : (existing.tradeFee ?? 0);
+      const vat    = vatAmount != null ? Number(vatAmount) : (existing.vatAmount ?? 0);
+      const exitF  = exitFee != null ? Number(exitFee) : (existing.exitFee ?? 0);
+      const exitV  = exitVatAmount != null ? Number(exitVatAmount) : (existing.exitVatAmount ?? 0);
+
+      pnl = calcPnl(kind, exitP, execP, numContracts, fee, vat, exitF, exitV);
+      returnPct = kind === "OPTION"
+        ? (pnl / (execP * numContracts * 100)) * 100
+        : (pnl / (execP * numContracts)) * 100;
       holdDays = Math.round(
         (exitD.getTime() - new Date(transactionDate ?? existing.entryDate).getTime()) / (1000 * 60 * 60 * 24)
       );
@@ -53,6 +70,7 @@ export async function PUT(
         executedPrice: execP,
         entryDate: transactionDate ? new Date(transactionDate) : existing.entryDate,
         tradeFee: tradeFee != null ? Number(tradeFee) : existing.tradeFee,
+        vatAmount: vatAmount != null ? Number(vatAmount) : existing.vatAmount,
         tradeSetup: tradeSetup !== undefined ? (tradeSetup || null) : existing.tradeSetup,
         notes: notes !== undefined ? (notes || null) : existing.notes,
         stockPrice: stockPrice !== undefined ? (stockPrice != null ? Number(stockPrice) : null) : existing.stockPrice,
@@ -61,6 +79,7 @@ export async function PUT(
               exitPrice: Number(exitPrice),
               exitDate: new Date(exitDate),
               exitFee: exitFee != null ? Number(exitFee) : existing.exitFee,
+              exitVatAmount: exitVatAmount != null ? Number(exitVatAmount) : existing.exitVatAmount,
               closeReason: closeReason !== undefined ? (closeReason || null) : existing.closeReason,
               lessonLearnt: lessonLearnt !== undefined ? (lessonLearnt || null) : existing.lessonLearnt,
               stockPriceAtExit: stockPriceAtExit !== undefined ? (stockPriceAtExit != null ? Number(stockPriceAtExit) : null) : existing.stockPriceAtExit,
@@ -102,7 +121,7 @@ export async function PATCH(
   const { id } = await params;
   const tradeId = Number(id);
   const body = await req.json();
-  const { exitPrice, exitDate, exitFee, closeReason, lessonLearnt, stockPriceAtExit } = body;
+  const { exitPrice, exitDate, exitFee, exitVatAmount, closeReason, lessonLearnt, stockPriceAtExit } = body;
 
   if (exitPrice == null || !exitDate) {
     return NextResponse.json({ error: "exitPrice and exitDate are required" }, { status: 400 });
@@ -116,14 +135,18 @@ export async function PATCH(
   try {
     const exitP = Number(exitPrice);
     const exitD = new Date(exitDate);
-    const exitF = exitFee != null ? Number(exitFee) : 0;
+    const exitF  = exitFee != null ? Number(exitFee) : 0;
+    const exitV  = exitVatAmount != null ? Number(exitVatAmount) : 0;
     const numContracts = existing.contracts ?? 1;
+    const execP  = existing.executedPrice ?? existing.premiumPaid;
+    const fee    = existing.tradeFee ?? 0;
+    const vat    = existing.vatAmount ?? 0;
+    const kind   = existing.tradeKind ?? "OPTION";
 
-    const pnl =
-      (exitP - existing.premiumPaid) * numContracts * 100
-      - exitF
-      - (existing.tradeFee ?? 0);
-    const returnPct = (pnl / (existing.premiumPaid * numContracts * 100)) * 100;
+    const pnl = calcPnl(kind, exitP, execP, numContracts, fee, vat, exitF, exitV);
+    const returnPct = kind === "OPTION"
+      ? (pnl / (execP * numContracts * 100)) * 100
+      : (pnl / (execP * numContracts)) * 100;
     const holdDays = Math.round(
       (exitD.getTime() - existing.entryDate.getTime()) / (1000 * 60 * 60 * 24)
     );
@@ -140,6 +163,7 @@ export async function PATCH(
         holdDays,
         reinvestSuggestion,
         exitFee: exitF > 0 ? exitF : null,
+        exitVatAmount: exitV > 0 ? exitV : null,
         closeReason: closeReason ?? null,
         lessonLearnt: lessonLearnt ?? null,
         stockPriceAtExit: stockPriceAtExit != null ? Number(stockPriceAtExit) : null,
