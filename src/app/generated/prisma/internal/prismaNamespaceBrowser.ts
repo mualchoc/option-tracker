@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Trade: 'Trade',
   MonthlyFuel: 'MonthlyFuel',
-  PortfolioConfig: 'PortfolioConfig'
+  PortfolioConfig: 'PortfolioConfig',
+  CashFlow: 'CashFlow'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -121,6 +122,17 @@ export const PortfolioConfigScalarFieldEnum = {
 } as const
 
 export type PortfolioConfigScalarFieldEnum = (typeof PortfolioConfigScalarFieldEnum)[keyof typeof PortfolioConfigScalarFieldEnum]
+
+
+export const CashFlowScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  amount: 'amount',
+  date: 'date',
+  note: 'note'
+} as const
+
+export type CashFlowScalarFieldEnum = (typeof CashFlowScalarFieldEnum)[keyof typeof CashFlowScalarFieldEnum]
 
 
 export const SortOrder = {

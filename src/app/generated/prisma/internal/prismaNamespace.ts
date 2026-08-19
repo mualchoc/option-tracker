@@ -386,7 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Trade: 'Trade',
   MonthlyFuel: 'MonthlyFuel',
-  PortfolioConfig: 'PortfolioConfig'
+  PortfolioConfig: 'PortfolioConfig',
+  CashFlow: 'CashFlow'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "monthlyFuel" | "portfolioConfig"
+    modelProps: "trade" | "monthlyFuel" | "portfolioConfig" | "cashFlow"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CashFlow: {
+      payload: Prisma.$CashFlowPayload<ExtArgs>
+      fields: Prisma.CashFlowFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CashFlowFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CashFlowFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>
+        }
+        findFirst: {
+          args: Prisma.CashFlowFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CashFlowFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>
+        }
+        findMany: {
+          args: Prisma.CashFlowFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>[]
+        }
+        create: {
+          args: Prisma.CashFlowCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>
+        }
+        createMany: {
+          args: Prisma.CashFlowCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CashFlowCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>[]
+        }
+        delete: {
+          args: Prisma.CashFlowDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>
+        }
+        update: {
+          args: Prisma.CashFlowUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>
+        }
+        deleteMany: {
+          args: Prisma.CashFlowDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CashFlowUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CashFlowUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>[]
+        }
+        upsert: {
+          args: Prisma.CashFlowUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CashFlowPayload>
+        }
+        aggregate: {
+          args: Prisma.CashFlowAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCashFlow>
+        }
+        groupBy: {
+          args: Prisma.CashFlowGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CashFlowGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CashFlowCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CashFlowCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -716,6 +791,17 @@ export const PortfolioConfigScalarFieldEnum = {
 } as const
 
 export type PortfolioConfigScalarFieldEnum = (typeof PortfolioConfigScalarFieldEnum)[keyof typeof PortfolioConfigScalarFieldEnum]
+
+
+export const CashFlowScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  amount: 'amount',
+  date: 'date',
+  note: 'note'
+} as const
+
+export type CashFlowScalarFieldEnum = (typeof CashFlowScalarFieldEnum)[keyof typeof CashFlowScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -880,6 +966,7 @@ export type GlobalOmitConfig = {
   trade?: Prisma.TradeOmit
   monthlyFuel?: Prisma.MonthlyFuelOmit
   portfolioConfig?: Prisma.PortfolioConfigOmit
+  cashFlow?: Prisma.CashFlowOmit
 }
 
 /* Types for Logging */

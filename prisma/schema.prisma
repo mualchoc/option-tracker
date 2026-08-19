@@ -51,3 +51,11 @@ model PortfolioConfig {
   startCapital Float
   startDate    DateTime
 }
+
+model CashFlow {
+  id     Int      @id @default(autoincrement())
+  type   String   // "IN" or "OUT"
+  amount Float
+  date   DateTime
+  note   String?
+}

@@ -32,3 +32,8 @@ export type MonthlyFuel = Prisma.MonthlyFuelModel
  * 
  */
 export type PortfolioConfig = Prisma.PortfolioConfigModel
+/**
+ * Model CashFlow
+ * 
+ */
+export type CashFlow = Prisma.CashFlowModel
