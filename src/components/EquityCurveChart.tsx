@@ -33,21 +33,25 @@ interface StatTileProps {
   label: string;
   value: string;
   color?: string;
+  sub?: string;
+  subColor?: string;
 }
-function StatTile({ label, value, color = "text-white" }: StatTileProps) {
+function StatTile({ label, value, color = "text-white", sub, subColor = "text-neutral-500" }: StatTileProps) {
   return (
     <div>
       <p className="text-xs text-neutral-500 uppercase tracking-wide mb-1">{label}</p>
       <p className={`text-lg font-bold tabular-nums ${color}`}>{value}</p>
+      {sub && <p className={`text-xs tabular-nums mt-0.5 ${subColor}`}>{sub}</p>}
     </div>
   );
 }
 
 interface Props {
   trades: Trade[];
+  startCapital?: number | null;
 }
 
-export default function EquityCurveChart({ trades }: Props) {
+export default function EquityCurveChart({ trades, startCapital }: Props) {
   const [range, setRange] = useState<TimeRange>("ALL");
   const [view, setView] = useState<ViewFilter>("ALL");
 
@@ -184,6 +188,10 @@ export default function EquityCurveChart({ trades }: Props) {
           label="Total P&L"
           value={`${totalPnl >= 0 ? "" : "-"}$${Math.abs(totalPnl).toFixed(2)}`}
           color={totalPnl > 0 ? "text-green-400" : totalPnl < 0 ? "text-red-400" : "text-white"}
+          sub={startCapital && startCapital > 0
+            ? `${(totalPnl / startCapital * 100).toFixed(2)}% of capital`
+            : undefined}
+          subColor={totalPnl > 0 ? "text-green-400/70" : totalPnl < 0 ? "text-red-400/70" : "text-neutral-500"}
         />
       </div>
     </div>

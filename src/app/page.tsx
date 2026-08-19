@@ -6,7 +6,10 @@ import OpenPositions from "@/components/OpenPositions";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const trades = await prisma.trade.findMany({ orderBy: { entryDate: "desc" } });
+  const [trades, config] = await Promise.all([
+    prisma.trade.findMany({ orderBy: { entryDate: "desc" } }),
+    prisma.portfolioConfig.findFirst(),
+  ]);
   const openTrades = trades.filter((t) => t.status === "OPEN");
 
   return (
@@ -32,7 +35,7 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <EquityCurveChart trades={trades} />
+      <EquityCurveChart trades={trades} startCapital={config?.startCapital ?? null} />
 
       <OpenPositions trades={openTrades} />
     </>
