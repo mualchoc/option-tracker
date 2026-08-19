@@ -76,7 +76,7 @@ export default function EquityCurveChart({ trades }: Props) {
     const winRate = filtered.length > 0 ? (wins.length / filtered.length) * 100 : 0;
 
     return { chartData, wins, losses, totalPnl, winRate, count: filtered.length };
-  }, [trades, range]);
+  }, [trades, range, view]);
 
   const lastVal = chartData.length > 0 ? chartData[chartData.length - 1].cumPnl : 0;
   const strokeColor = lastVal >= 0 ? "#22c55e" : "#ef4444";
