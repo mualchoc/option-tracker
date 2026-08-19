@@ -25,7 +25,7 @@ export default function OpenPositions({ trades }: Props) {
           <table className="w-full text-sm">
             <thead className="bg-[#111] border-b border-[#2a2a2a]">
               <tr>
-                {["Ticker", "Kind", "Type", "Entry Date", "Entry Price", "Qty", "Days Open"].map((h) => (
+                {["Ticker", "Kind", "Type", "Expiry", "Entry Date", "Entry Price", "Qty", "Days Open"].map((h) => (
                   <th
                     key={h}
                     className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide text-left whitespace-nowrap"
@@ -81,6 +81,20 @@ export default function OpenPositions({ trades }: Props) {
                           {t.type}
                         </span>
                       )}
+                    </td>
+                    <td className="px-4 py-3 tabular-nums whitespace-nowrap">
+                      {isStock || !t.expiry ? (
+                        <span className="text-neutral-600">—</span>
+                      ) : (() => {
+                        const daysLeft = Math.ceil((new Date(t.expiry).getTime() - Date.now()) / 86_400_000);
+                        const expiryColor = daysLeft <= 7 ? "text-red-400 font-semibold" : daysLeft <= 14 ? "text-amber-400" : "text-neutral-400";
+                        return (
+                          <span className={expiryColor}>
+                            {new Date(t.expiry).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                            <span className="ml-1 text-xs opacity-60">{daysLeft}d</span>
+                          </span>
+                        );
+                      })()}
                     </td>
                     <td className="px-4 py-3 text-neutral-500 tabular-nums whitespace-nowrap">
                       {new Date(t.entryDate).toLocaleDateString("en-US", {
