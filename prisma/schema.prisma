@@ -20,7 +20,7 @@ model Trade {
   status             String    @default("OPEN")
   notes              String?
   tradeSetup         String?
-  contracts          Int       @default(1)
+  contracts          Float     @default(1)
   executedPrice      Float?
   tradeFee           Float?
   pnl                Float?

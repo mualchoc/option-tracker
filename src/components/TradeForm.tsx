@@ -298,7 +298,7 @@ export default function TradeForm(props: Props) {
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Stock Symbol" name="ticker" type="text" placeholder="AAPL" />
                 <Field
-                  label="Shares" name="contracts" type="number" defaultValue={1} step="1" placeholder="100"
+                  label="Shares" name="contracts" type="number" defaultValue={1} step="0.001" placeholder="100"
                   onChange={(v) => setContracts(Math.max(1, Number(v) || 1))}
                 />
               </div>

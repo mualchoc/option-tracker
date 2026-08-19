@@ -126,7 +126,7 @@ export default function EditTradeForm({ trade }: { trade: Trade }) {
             </div>
             <div>
               <label className={labelCls}>Shares</label>
-              <input name="contracts" type="number" step="1" required
+              <input name="contracts" type="number" step="0.001" required
                 defaultValue={trade.contracts ?? 1} placeholder="100" className={inputCls} />
             </div>
           </div>
