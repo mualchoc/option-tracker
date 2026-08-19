@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Trade: 'Trade',
-  MonthlyFuel: 'MonthlyFuel'
+  MonthlyFuel: 'MonthlyFuel',
+  PortfolioConfig: 'PortfolioConfig'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "trade" | "monthlyFuel"
+    modelProps: "trade" | "monthlyFuel" | "portfolioConfig"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PortfolioConfig: {
+      payload: Prisma.$PortfolioConfigPayload<ExtArgs>
+      fields: Prisma.PortfolioConfigFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PortfolioConfigFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PortfolioConfigFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>
+        }
+        findFirst: {
+          args: Prisma.PortfolioConfigFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PortfolioConfigFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>
+        }
+        findMany: {
+          args: Prisma.PortfolioConfigFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>[]
+        }
+        create: {
+          args: Prisma.PortfolioConfigCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>
+        }
+        createMany: {
+          args: Prisma.PortfolioConfigCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PortfolioConfigCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>[]
+        }
+        delete: {
+          args: Prisma.PortfolioConfigDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>
+        }
+        update: {
+          args: Prisma.PortfolioConfigUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>
+        }
+        deleteMany: {
+          args: Prisma.PortfolioConfigDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PortfolioConfigUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PortfolioConfigUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>[]
+        }
+        upsert: {
+          args: Prisma.PortfolioConfigUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortfolioConfigPayload>
+        }
+        aggregate: {
+          args: Prisma.PortfolioConfigAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePortfolioConfig>
+        }
+        groupBy: {
+          args: Prisma.PortfolioConfigGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortfolioConfigGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PortfolioConfigCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortfolioConfigCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -632,6 +707,15 @@ export const MonthlyFuelScalarFieldEnum = {
 } as const
 
 export type MonthlyFuelScalarFieldEnum = (typeof MonthlyFuelScalarFieldEnum)[keyof typeof MonthlyFuelScalarFieldEnum]
+
+
+export const PortfolioConfigScalarFieldEnum = {
+  id: 'id',
+  startCapital: 'startCapital',
+  startDate: 'startDate'
+} as const
+
+export type PortfolioConfigScalarFieldEnum = (typeof PortfolioConfigScalarFieldEnum)[keyof typeof PortfolioConfigScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -795,6 +879,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   trade?: Prisma.TradeOmit
   monthlyFuel?: Prisma.MonthlyFuelOmit
+  portfolioConfig?: Prisma.PortfolioConfigOmit
 }
 
 /* Types for Logging */

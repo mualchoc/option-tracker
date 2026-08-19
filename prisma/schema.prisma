@@ -45,3 +45,9 @@ model MonthlyFuel {
   deployed       Float
   reinvestedBack Float
 }
+
+model PortfolioConfig {
+  id           Int      @id @default(autoincrement())
+  startCapital Float
+  startDate    DateTime
+}

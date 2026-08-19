@@ -10,4 +10,5 @@
  */
 export type * from './models/Trade'
 export type * from './models/MonthlyFuel'
+export type * from './models/PortfolioConfig'
 export type * from './commonInputTypes'

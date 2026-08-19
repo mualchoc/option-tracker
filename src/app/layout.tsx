@@ -21,14 +21,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Link href="/trades" className="text-neutral-400 hover:text-white transition-colors font-medium">
             Trades
           </Link>
-<Link href="/fuel" className="text-neutral-400 hover:text-white transition-colors font-medium">
-            Fuel
-          </Link>
           <Link href="/calendar" className="text-neutral-400 hover:text-white transition-colors font-medium">
             Calendar
           </Link>
           <Link href="/lessons" className="text-neutral-400 hover:text-white transition-colors font-medium">
             Lessons
+          </Link>
+          <Link href="/settings" className="text-neutral-400 hover:text-white transition-colors font-medium">
+            Settings
           </Link>
         </nav>
         <main className="max-w-6xl mx-auto px-8 py-8">

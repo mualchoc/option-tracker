@@ -27,3 +27,8 @@ export type Trade = Prisma.TradeModel
  * 
  */
 export type MonthlyFuel = Prisma.MonthlyFuelModel
+/**
+ * Model PortfolioConfig
+ * 
+ */
+export type PortfolioConfig = Prisma.PortfolioConfigModel
