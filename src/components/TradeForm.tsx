@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Trade } from "@/app/generated/prisma/client";
 
 type TradeKind = "OPTION" | "STOCK";
@@ -130,6 +130,8 @@ export default function TradeForm(props: Props) {
   const parsedExitVat = parseFeeExpr(exitVatExpr);
   const closeContracts = props.mode === "close" ? (props.trade.contracts ?? 1) : 1;
   const [soldQty, setSoldQty] = useState<number>(closeContracts);
+  // Reset qty and loading when remaining position shrinks after a partial sell + page refresh
+  useEffect(() => { setSoldQty(closeContracts); }, [closeContracts]);
 
   const estimatedCreditOption =
     closeExitPrice != null && parsedExitFee != null
@@ -199,6 +201,7 @@ export default function TradeForm(props: Props) {
             body: JSON.stringify({ ...data, contractsToSell: soldQty }),
           });
           if (!res.ok) throw new Error(await readError(res));
+          setLoading(false);
           router.push(`/trades/${tradeId}`);
         } else {
           res = await fetch(`/api/trades/${tradeId}`, {
