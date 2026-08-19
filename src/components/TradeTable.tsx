@@ -33,7 +33,7 @@ function StatusBadge({ trade }: { trade: Trade }) {
   );
 }
 
-const fmtQty = (n: number | null) => parseFloat((n ?? 1).toFixed(3)).toString();
+const fmtQty = (n: number | null) => parseFloat((n ?? 1).toFixed(7)).toString();
 
 function pnlColor(t: Trade) {
   if (t.status === "OPEN") return "text-neutral-600";

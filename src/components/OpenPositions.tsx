@@ -42,7 +42,7 @@ export default function OpenPositions({ trades }: Props) {
                   days >= 60 ? "text-red-400" : days >= 30 ? "text-amber-400" : "text-neutral-300";
                 const entryPrice = t.executedPrice ?? t.premiumPaid;
                 const isStock = t.tradeKind === "STOCK";
-                const qty = parseFloat((t.contracts ?? 1).toFixed(3));
+                const qty = parseFloat((t.contracts ?? 1).toFixed(7));
 
                 return (
                   <tr
