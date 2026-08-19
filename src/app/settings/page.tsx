@@ -21,6 +21,7 @@ export default function SettingsPage() {
   // ── Portfolio config ──
   const [startCapital, setStartCapital] = useState("");
   const [startDate, setStartDate] = useState("");
+  const [configNote, setConfigNote] = useState("");
   const [configLoading, setConfigLoading] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
   const [configError, setConfigError] = useState<string | null>(null);
@@ -41,6 +42,7 @@ export default function SettingsPage() {
         if (data) {
           setStartCapital(String(data.startCapital ?? ""));
           setStartDate(data.startDate ? new Date(data.startDate).toISOString().split("T")[0] : "");
+          setConfigNote(data.note ?? "");
         }
       });
 
@@ -58,7 +60,7 @@ export default function SettingsPage() {
       const res = await fetch("/api/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ startCapital: Number(startCapital), startDate }),
+        body: JSON.stringify({ startCapital: Number(startCapital), startDate, note: configNote }),
       });
       if (!res.ok) throw new Error((await res.json()).error ?? "Failed to save");
       setConfigSaved(true);
@@ -133,6 +135,15 @@ export default function SettingsPage() {
                 type="date" required
                 value={startDate} onChange={(e) => setStartDate(e.target.value)}
                 className={inputCls}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>Note <span className="normal-case text-neutral-600 font-normal">(optional)</span></label>
+              <textarea
+                rows={2}
+                value={configNote} onChange={(e) => setConfigNote(e.target.value)}
+                placeholder="e.g. Initial portfolio funded from savings…"
+                className={`${inputCls} resize-none`}
               />
             </div>
             {configError && (

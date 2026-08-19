@@ -7,7 +7,7 @@ export async function GET() {
 }
 
 export async function PUT(req: NextRequest) {
-  const { startCapital, startDate } = await req.json();
+  const { startCapital, startDate, note } = await req.json();
 
   if (startCapital == null || !startDate) {
     return NextResponse.json(
@@ -21,11 +21,13 @@ export async function PUT(req: NextRequest) {
     update: {
       startCapital: Number(startCapital),
       startDate: new Date(startDate),
+      note: note || null,
     },
     create: {
       id: 1,
       startCapital: Number(startCapital),
       startDate: new Date(startDate),
+      note: note || null,
     },
   });
 

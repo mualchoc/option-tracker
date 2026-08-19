@@ -40,18 +40,21 @@ export type PortfolioConfigMinAggregateOutputType = {
   id: number | null
   startCapital: number | null
   startDate: Date | null
+  note: string | null
 }
 
 export type PortfolioConfigMaxAggregateOutputType = {
   id: number | null
   startCapital: number | null
   startDate: Date | null
+  note: string | null
 }
 
 export type PortfolioConfigCountAggregateOutputType = {
   id: number
   startCapital: number
   startDate: number
+  note: number
   _all: number
 }
 
@@ -70,18 +73,21 @@ export type PortfolioConfigMinAggregateInputType = {
   id?: true
   startCapital?: true
   startDate?: true
+  note?: true
 }
 
 export type PortfolioConfigMaxAggregateInputType = {
   id?: true
   startCapital?: true
   startDate?: true
+  note?: true
 }
 
 export type PortfolioConfigCountAggregateInputType = {
   id?: true
   startCapital?: true
   startDate?: true
+  note?: true
   _all?: true
 }
 
@@ -175,6 +181,7 @@ export type PortfolioConfigGroupByOutputType = {
   id: number
   startCapital: number
   startDate: Date
+  note: string | null
   _count: PortfolioConfigCountAggregateOutputType | null
   _avg: PortfolioConfigAvgAggregateOutputType | null
   _sum: PortfolioConfigSumAggregateOutputType | null
@@ -204,12 +211,14 @@ export type PortfolioConfigWhereInput = {
   id?: Prisma.IntFilter<"PortfolioConfig"> | number
   startCapital?: Prisma.FloatFilter<"PortfolioConfig"> | number
   startDate?: Prisma.DateTimeFilter<"PortfolioConfig"> | Date | string
+  note?: Prisma.StringNullableFilter<"PortfolioConfig"> | string | null
 }
 
 export type PortfolioConfigOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   startCapital?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type PortfolioConfigWhereUniqueInput = Prisma.AtLeast<{
@@ -219,12 +228,14 @@ export type PortfolioConfigWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PortfolioConfigWhereInput | Prisma.PortfolioConfigWhereInput[]
   startCapital?: Prisma.FloatFilter<"PortfolioConfig"> | number
   startDate?: Prisma.DateTimeFilter<"PortfolioConfig"> | Date | string
+  note?: Prisma.StringNullableFilter<"PortfolioConfig"> | string | null
 }, "id">
 
 export type PortfolioConfigOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   startCapital?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
+  note?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PortfolioConfigCountOrderByAggregateInput
   _avg?: Prisma.PortfolioConfigAvgOrderByAggregateInput
   _max?: Prisma.PortfolioConfigMaxOrderByAggregateInput
@@ -239,51 +250,60 @@ export type PortfolioConfigScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"PortfolioConfig"> | number
   startCapital?: Prisma.FloatWithAggregatesFilter<"PortfolioConfig"> | number
   startDate?: Prisma.DateTimeWithAggregatesFilter<"PortfolioConfig"> | Date | string
+  note?: Prisma.StringNullableWithAggregatesFilter<"PortfolioConfig"> | string | null
 }
 
 export type PortfolioConfigCreateInput = {
   startCapital: number
   startDate: Date | string
+  note?: string | null
 }
 
 export type PortfolioConfigUncheckedCreateInput = {
   id?: number
   startCapital: number
   startDate: Date | string
+  note?: string | null
 }
 
 export type PortfolioConfigUpdateInput = {
   startCapital?: Prisma.FloatFieldUpdateOperationsInput | number
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PortfolioConfigUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   startCapital?: Prisma.FloatFieldUpdateOperationsInput | number
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PortfolioConfigCreateManyInput = {
   id?: number
   startCapital: number
   startDate: Date | string
+  note?: string | null
 }
 
 export type PortfolioConfigUpdateManyMutationInput = {
   startCapital?: Prisma.FloatFieldUpdateOperationsInput | number
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PortfolioConfigUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   startCapital?: Prisma.FloatFieldUpdateOperationsInput | number
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PortfolioConfigCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   startCapital?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type PortfolioConfigAvgOrderByAggregateInput = {
@@ -295,12 +315,14 @@ export type PortfolioConfigMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   startCapital?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type PortfolioConfigMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   startCapital?: Prisma.SortOrder
   startDate?: Prisma.SortOrder
+  note?: Prisma.SortOrder
 }
 
 export type PortfolioConfigSumOrderByAggregateInput = {
@@ -314,27 +336,31 @@ export type PortfolioConfigSelect<ExtArgs extends runtime.Types.Extensions.Inter
   id?: boolean
   startCapital?: boolean
   startDate?: boolean
+  note?: boolean
 }, ExtArgs["result"]["portfolioConfig"]>
 
 export type PortfolioConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   startCapital?: boolean
   startDate?: boolean
+  note?: boolean
 }, ExtArgs["result"]["portfolioConfig"]>
 
 export type PortfolioConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   startCapital?: boolean
   startDate?: boolean
+  note?: boolean
 }, ExtArgs["result"]["portfolioConfig"]>
 
 export type PortfolioConfigSelectScalar = {
   id?: boolean
   startCapital?: boolean
   startDate?: boolean
+  note?: boolean
 }
 
-export type PortfolioConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "startCapital" | "startDate", ExtArgs["result"]["portfolioConfig"]>
+export type PortfolioConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "startCapital" | "startDate" | "note", ExtArgs["result"]["portfolioConfig"]>
 
 export type $PortfolioConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PortfolioConfig"
@@ -343,6 +369,7 @@ export type $PortfolioConfigPayload<ExtArgs extends runtime.Types.Extensions.Int
     id: number
     startCapital: number
     startDate: Date
+    note: string | null
   }, ExtArgs["result"]["portfolioConfig"]>
   composites: {}
 }
@@ -769,6 +796,7 @@ export interface PortfolioConfigFieldRefs {
   readonly id: Prisma.FieldRef<"PortfolioConfig", 'Int'>
   readonly startCapital: Prisma.FieldRef<"PortfolioConfig", 'Float'>
   readonly startDate: Prisma.FieldRef<"PortfolioConfig", 'DateTime'>
+  readonly note: Prisma.FieldRef<"PortfolioConfig", 'String'>
 }
     
 

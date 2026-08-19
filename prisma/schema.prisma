@@ -50,6 +50,7 @@ model PortfolioConfig {
   id           Int      @id @default(autoincrement())
   startCapital Float
   startDate    DateTime
+  note         String?
 }
 
 model CashFlow {

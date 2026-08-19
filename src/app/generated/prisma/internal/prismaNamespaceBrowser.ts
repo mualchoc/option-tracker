@@ -118,7 +118,8 @@ export type MonthlyFuelScalarFieldEnum = (typeof MonthlyFuelScalarFieldEnum)[key
 export const PortfolioConfigScalarFieldEnum = {
   id: 'id',
   startCapital: 'startCapital',
-  startDate: 'startDate'
+  startDate: 'startDate',
+  note: 'note'
 } as const
 
 export type PortfolioConfigScalarFieldEnum = (typeof PortfolioConfigScalarFieldEnum)[keyof typeof PortfolioConfigScalarFieldEnum]
