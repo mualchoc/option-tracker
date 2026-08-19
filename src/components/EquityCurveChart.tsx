@@ -9,6 +9,13 @@ import type { Trade } from "@/app/generated/prisma/client";
 type TimeRange = "3M" | "6M" | "1Y" | "YTD" | "ALL";
 const RANGES: TimeRange[] = ["3M", "6M", "1Y", "YTD", "ALL"];
 
+type ViewFilter = "ALL" | "OPTION" | "STOCK";
+const VIEWS: { key: ViewFilter; label: string }[] = [
+  { key: "ALL",    label: "All" },
+  { key: "OPTION", label: "Options" },
+  { key: "STOCK",  label: "Stocks" },
+];
+
 function getCutoffDate(range: TimeRange): Date | null {
   const now = new Date();
   if (range === "3M")  return new Date(now.getFullYear(), now.getMonth() - 3,  now.getDate());
@@ -42,15 +49,17 @@ interface Props {
 
 export default function EquityCurveChart({ trades }: Props) {
   const [range, setRange] = useState<TimeRange>("ALL");
+  const [view, setView] = useState<ViewFilter>("ALL");
 
   const { chartData, wins, losses, totalPnl, winRate, count } = useMemo(() => {
     const closed = trades.filter(
       (t) => t.status === "CLOSED" && t.pnl != null && t.exitDate != null
     );
+    const kindFiltered = view === "ALL" ? closed : closed.filter((t) => t.tradeKind === view);
     const cutoff = getCutoffDate(range);
     const filtered = cutoff
-      ? closed.filter((t) => new Date(t.exitDate!) >= cutoff)
-      : closed;
+      ? kindFiltered.filter((t) => new Date(t.exitDate!) >= cutoff)
+      : kindFiltered;
     const sorted = [...filtered].sort(
       (a, b) => new Date(a.exitDate!).getTime() - new Date(b.exitDate!).getTime()
     );
@@ -75,10 +84,22 @@ export default function EquityCurveChart({ trades }: Props) {
   return (
     <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-5 mb-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">
-          Performance
-        </p>
+      <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+        <div className="flex items-center gap-1">
+          {VIEWS.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setView(key)}
+              className={`px-3 py-1 rounded text-xs font-medium border transition-colors cursor-pointer ${
+                view === key
+                  ? "bg-[#2a2a2a] text-white border-[#3a3a3a]"
+                  : "text-neutral-500 border-transparent hover:text-neutral-300"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <div className="flex gap-1">
           {RANGES.map((r) => (
             <button
