@@ -43,6 +43,7 @@ export type TradeAvgAggregateOutputType = {
   stockPriceAtExit: number | null
   vatAmount: number | null
   exitVatAmount: number | null
+  parentTradeId: number | null
 }
 
 export type TradeSumAggregateOutputType = {
@@ -62,6 +63,7 @@ export type TradeSumAggregateOutputType = {
   stockPriceAtExit: number | null
   vatAmount: number | null
   exitVatAmount: number | null
+  parentTradeId: number | null
 }
 
 export type TradeMinAggregateOutputType = {
@@ -92,6 +94,7 @@ export type TradeMinAggregateOutputType = {
   tradeKind: string | null
   vatAmount: number | null
   exitVatAmount: number | null
+  parentTradeId: number | null
 }
 
 export type TradeMaxAggregateOutputType = {
@@ -122,6 +125,7 @@ export type TradeMaxAggregateOutputType = {
   tradeKind: string | null
   vatAmount: number | null
   exitVatAmount: number | null
+  parentTradeId: number | null
 }
 
 export type TradeCountAggregateOutputType = {
@@ -152,6 +156,7 @@ export type TradeCountAggregateOutputType = {
   tradeKind: number
   vatAmount: number
   exitVatAmount: number
+  parentTradeId: number
   _all: number
 }
 
@@ -173,6 +178,7 @@ export type TradeAvgAggregateInputType = {
   stockPriceAtExit?: true
   vatAmount?: true
   exitVatAmount?: true
+  parentTradeId?: true
 }
 
 export type TradeSumAggregateInputType = {
@@ -192,6 +198,7 @@ export type TradeSumAggregateInputType = {
   stockPriceAtExit?: true
   vatAmount?: true
   exitVatAmount?: true
+  parentTradeId?: true
 }
 
 export type TradeMinAggregateInputType = {
@@ -222,6 +229,7 @@ export type TradeMinAggregateInputType = {
   tradeKind?: true
   vatAmount?: true
   exitVatAmount?: true
+  parentTradeId?: true
 }
 
 export type TradeMaxAggregateInputType = {
@@ -252,6 +260,7 @@ export type TradeMaxAggregateInputType = {
   tradeKind?: true
   vatAmount?: true
   exitVatAmount?: true
+  parentTradeId?: true
 }
 
 export type TradeCountAggregateInputType = {
@@ -282,6 +291,7 @@ export type TradeCountAggregateInputType = {
   tradeKind?: true
   vatAmount?: true
   exitVatAmount?: true
+  parentTradeId?: true
   _all?: true
 }
 
@@ -399,6 +409,7 @@ export type TradeGroupByOutputType = {
   tradeKind: string
   vatAmount: number | null
   exitVatAmount: number | null
+  parentTradeId: number | null
   _count: TradeCountAggregateOutputType | null
   _avg: TradeAvgAggregateOutputType | null
   _sum: TradeSumAggregateOutputType | null
@@ -452,6 +463,7 @@ export type TradeWhereInput = {
   tradeKind?: Prisma.StringFilter<"Trade"> | string
   vatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
   exitVatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  parentTradeId?: Prisma.IntNullableFilter<"Trade"> | number | null
 }
 
 export type TradeOrderByWithRelationInput = {
@@ -482,6 +494,7 @@ export type TradeOrderByWithRelationInput = {
   tradeKind?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type TradeWhereUniqueInput = Prisma.AtLeast<{
@@ -515,6 +528,7 @@ export type TradeWhereUniqueInput = Prisma.AtLeast<{
   tradeKind?: Prisma.StringFilter<"Trade"> | string
   vatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
   exitVatAmount?: Prisma.FloatNullableFilter<"Trade"> | number | null
+  parentTradeId?: Prisma.IntNullableFilter<"Trade"> | number | null
 }, "id">
 
 export type TradeOrderByWithAggregationInput = {
@@ -545,6 +559,7 @@ export type TradeOrderByWithAggregationInput = {
   tradeKind?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TradeCountOrderByAggregateInput
   _avg?: Prisma.TradeAvgOrderByAggregateInput
   _max?: Prisma.TradeMaxOrderByAggregateInput
@@ -583,6 +598,7 @@ export type TradeScalarWhereWithAggregatesInput = {
   tradeKind?: Prisma.StringWithAggregatesFilter<"Trade"> | string
   vatAmount?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
   exitVatAmount?: Prisma.FloatNullableWithAggregatesFilter<"Trade"> | number | null
+  parentTradeId?: Prisma.IntNullableWithAggregatesFilter<"Trade"> | number | null
 }
 
 export type TradeCreateInput = {
@@ -612,6 +628,7 @@ export type TradeCreateInput = {
   tradeKind?: string
   vatAmount?: number | null
   exitVatAmount?: number | null
+  parentTradeId?: number | null
 }
 
 export type TradeUncheckedCreateInput = {
@@ -642,6 +659,7 @@ export type TradeUncheckedCreateInput = {
   tradeKind?: string
   vatAmount?: number | null
   exitVatAmount?: number | null
+  parentTradeId?: number | null
 }
 
 export type TradeUpdateInput = {
@@ -671,6 +689,7 @@ export type TradeUpdateInput = {
   tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
   vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  parentTradeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TradeUncheckedUpdateInput = {
@@ -701,6 +720,7 @@ export type TradeUncheckedUpdateInput = {
   tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
   vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  parentTradeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TradeCreateManyInput = {
@@ -731,6 +751,7 @@ export type TradeCreateManyInput = {
   tradeKind?: string
   vatAmount?: number | null
   exitVatAmount?: number | null
+  parentTradeId?: number | null
 }
 
 export type TradeUpdateManyMutationInput = {
@@ -760,6 +781,7 @@ export type TradeUpdateManyMutationInput = {
   tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
   vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  parentTradeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TradeUncheckedUpdateManyInput = {
@@ -790,6 +812,7 @@ export type TradeUncheckedUpdateManyInput = {
   tradeKind?: Prisma.StringFieldUpdateOperationsInput | string
   vatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   exitVatAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  parentTradeId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
 export type TradeCountOrderByAggregateInput = {
@@ -820,6 +843,7 @@ export type TradeCountOrderByAggregateInput = {
   tradeKind?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrder
 }
 
 export type TradeAvgOrderByAggregateInput = {
@@ -839,6 +863,7 @@ export type TradeAvgOrderByAggregateInput = {
   stockPriceAtExit?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrder
 }
 
 export type TradeMaxOrderByAggregateInput = {
@@ -869,6 +894,7 @@ export type TradeMaxOrderByAggregateInput = {
   tradeKind?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrder
 }
 
 export type TradeMinOrderByAggregateInput = {
@@ -899,6 +925,7 @@ export type TradeMinOrderByAggregateInput = {
   tradeKind?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrder
 }
 
 export type TradeSumOrderByAggregateInput = {
@@ -918,6 +945,7 @@ export type TradeSumOrderByAggregateInput = {
   stockPriceAtExit?: Prisma.SortOrder
   vatAmount?: Prisma.SortOrder
   exitVatAmount?: Prisma.SortOrder
+  parentTradeId?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -998,6 +1026,7 @@ export type TradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   tradeKind?: boolean
   vatAmount?: boolean
   exitVatAmount?: boolean
+  parentTradeId?: boolean
 }, ExtArgs["result"]["trade"]>
 
 export type TradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1028,6 +1057,7 @@ export type TradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   tradeKind?: boolean
   vatAmount?: boolean
   exitVatAmount?: boolean
+  parentTradeId?: boolean
 }, ExtArgs["result"]["trade"]>
 
 export type TradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1058,6 +1088,7 @@ export type TradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   tradeKind?: boolean
   vatAmount?: boolean
   exitVatAmount?: boolean
+  parentTradeId?: boolean
 }, ExtArgs["result"]["trade"]>
 
 export type TradeSelectScalar = {
@@ -1088,9 +1119,10 @@ export type TradeSelectScalar = {
   tradeKind?: boolean
   vatAmount?: boolean
   exitVatAmount?: boolean
+  parentTradeId?: boolean
 }
 
-export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ticker" | "type" | "strike" | "expiry" | "premiumPaid" | "entryDate" | "exitPrice" | "exitDate" | "status" | "notes" | "tradeSetup" | "contracts" | "executedPrice" | "tradeFee" | "pnl" | "returnPct" | "holdDays" | "reinvestSuggestion" | "exitFee" | "closeReason" | "lessonLearnt" | "stockPrice" | "stockPriceAtExit" | "tradeKind" | "vatAmount" | "exitVatAmount", ExtArgs["result"]["trade"]>
+export type TradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ticker" | "type" | "strike" | "expiry" | "premiumPaid" | "entryDate" | "exitPrice" | "exitDate" | "status" | "notes" | "tradeSetup" | "contracts" | "executedPrice" | "tradeFee" | "pnl" | "returnPct" | "holdDays" | "reinvestSuggestion" | "exitFee" | "closeReason" | "lessonLearnt" | "stockPrice" | "stockPriceAtExit" | "tradeKind" | "vatAmount" | "exitVatAmount" | "parentTradeId", ExtArgs["result"]["trade"]>
 
 export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Trade"
@@ -1123,6 +1155,7 @@ export type $TradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     tradeKind: string
     vatAmount: number | null
     exitVatAmount: number | null
+    parentTradeId: number | null
   }, ExtArgs["result"]["trade"]>
   composites: {}
 }
@@ -1573,6 +1606,7 @@ export interface TradeFieldRefs {
   readonly tradeKind: Prisma.FieldRef<"Trade", 'String'>
   readonly vatAmount: Prisma.FieldRef<"Trade", 'Float'>
   readonly exitVatAmount: Prisma.FieldRef<"Trade", 'Float'>
+  readonly parentTradeId: Prisma.FieldRef<"Trade", 'Int'>
 }
     
 

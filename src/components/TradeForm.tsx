@@ -129,15 +129,16 @@ export default function TradeForm(props: Props) {
   const parsedExitFee = parseFeeExpr(exitFeeExpr);
   const parsedExitVat = parseFeeExpr(exitVatExpr);
   const closeContracts = props.mode === "close" ? (props.trade.contracts ?? 1) : 1;
+  const [soldQty, setSoldQty] = useState<number>(closeContracts);
 
   const estimatedCreditOption =
     closeExitPrice != null && parsedExitFee != null
-      ? closeExitPrice * closeContracts * 100 - parsedExitFee
+      ? closeExitPrice * soldQty * 100 - parsedExitFee
       : null;
 
   const estimatedCreditStock =
     closeExitPrice != null && parsedExitFee != null && parsedExitVat != null
-      ? closeExitPrice * closeContracts - parsedExitFee - parsedExitVat
+      ? closeExitPrice * soldQty - parsedExitFee - parsedExitVat
       : null;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -186,13 +187,28 @@ export default function TradeForm(props: Props) {
       }
       delete data.exitFee_expr;
 
+      const tradeId = (props as { mode: "close"; trade: { id: number } }).trade.id;
+      const isPartialSell = soldQty < closeContracts;
+
       try {
-        const res = await fetch(
-          `/api/trades/${(props as { mode: "close"; trade: { id: number } }).trade.id}`,
-          { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) }
-        );
-        if (!res.ok) throw new Error(await readError(res));
-        router.push("/trades");
+        let res: Response;
+        if (isPartialSell) {
+          res = await fetch(`/api/trades/${tradeId}/partial-sell`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...data, contractsToSell: soldQty }),
+          });
+          if (!res.ok) throw new Error(await readError(res));
+          router.push(`/trades/${tradeId}`);
+        } else {
+          res = await fetch(`/api/trades/${tradeId}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          if (!res.ok) throw new Error(await readError(res));
+          router.push("/trades");
+        }
         router.refresh();
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong");
@@ -408,6 +424,34 @@ export default function TradeForm(props: Props) {
         <>
           {closeKind === "STOCK" ? (
             <>
+              {/* Shares to sell */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelCls}>Shares to Sell</label>
+                  <input
+                    type="number" step="0.0000001" min="0.0000001" max={closeContracts}
+                    value={soldQty}
+                    onChange={(e) => {
+                      const v = Number(e.target.value);
+                      setSoldQty(isNaN(v) || v <= 0 ? closeContracts : Math.min(closeContracts, v));
+                    }}
+                    className={inputCls}
+                  />
+                  <p className="text-xs text-neutral-600 mt-1">
+                    Max: {parseFloat(closeContracts.toFixed(7)).toString()} sh
+                  </p>
+                </div>
+                <div className="self-center pt-4">
+                  {soldQty < closeContracts ? (
+                    <span className="text-xs text-amber-400">
+                      {parseFloat((closeContracts - soldQty).toFixed(7)).toString()} sh will remain open
+                    </span>
+                  ) : (
+                    <span className="text-xs text-neutral-500">Full position — closes trade</span>
+                  )}
+                </div>
+              </div>
+
               {/* Sell Price + Sell Date */}
               <div className="grid grid-cols-2 gap-4">
                 <Field
@@ -442,7 +486,7 @@ export default function TradeForm(props: Props) {
                 <label className={labelCls}>
                   Estimated Proceeds
                   <span className="ml-1.5 normal-case text-neutral-600 font-normal">
-                    (sell price × {closeContracts} shares − commission − VAT)
+                    (sell price × {parseFloat(soldQty.toFixed(7)).toString()} sh − commission − VAT)
                   </span>
                 </label>
                 <div className={`${inputCls} cursor-default`}>
@@ -470,6 +514,34 @@ export default function TradeForm(props: Props) {
             </>
           ) : (
             <>
+              {/* Contracts to sell (only shown when position > 1 contract) */}
+              {closeContracts > 1 && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelCls}>Contracts to Sell</label>
+                    <input
+                      type="number" step="1" min="1" max={closeContracts}
+                      value={soldQty}
+                      onChange={(e) => {
+                        const v = Math.floor(Number(e.target.value));
+                        setSoldQty(isNaN(v) || v < 1 ? closeContracts : Math.min(closeContracts, v));
+                      }}
+                      className={inputCls}
+                    />
+                    <p className="text-xs text-neutral-600 mt-1">Max: {closeContracts} ct</p>
+                  </div>
+                  <div className="self-center pt-4">
+                    {soldQty < closeContracts ? (
+                      <span className="text-xs text-amber-400">
+                        {closeContracts - soldQty} contract{closeContracts - soldQty !== 1 ? "s" : ""} will remain open
+                      </span>
+                    ) : (
+                      <span className="text-xs text-neutral-500">Full position — closes trade</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Option close — existing fields */}
               <div className="grid grid-cols-2 gap-4">
                 <Field
@@ -497,7 +569,7 @@ export default function TradeForm(props: Props) {
                 <label className={labelCls}>
                   Estimated Total Credit
                   <span className="ml-1.5 normal-case text-neutral-600 font-normal">
-                    (exit price × {closeContracts} contract{closeContracts !== 1 ? "s" : ""} × 100 − fee)
+                    (exit price × {soldQty} contract{soldQty !== 1 ? "s" : ""} × 100 − fee)
                   </span>
                 </label>
                 <div className={`${inputCls} cursor-default`}>
@@ -539,9 +611,11 @@ export default function TradeForm(props: Props) {
           ? "Saving…"
           : props.mode === "new"
             ? "Log Trade"
-            : closeKind === "STOCK"
-              ? "Record Sale"
-              : "Close Trade"}
+            : soldQty < closeContracts
+              ? "Partial Sell"
+              : closeKind === "STOCK"
+                ? "Record Sale"
+                : "Close Trade"}
       </button>
     </form>
   );

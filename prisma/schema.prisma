@@ -35,6 +35,7 @@ model Trade {
   tradeKind          String    @default("OPTION")
   vatAmount          Float?
   exitVatAmount      Float?
+  parentTradeId      Int?
 }
 
 model MonthlyFuel {

@@ -12,7 +12,13 @@ interface Props {
 
 export default async function TradePage({ params }: Props) {
   const { id } = await params;
-  const trade = await prisma.trade.findUnique({ where: { id: Number(id) } });
+  const [trade, partialSells] = await Promise.all([
+    prisma.trade.findUnique({ where: { id: Number(id) } }),
+    prisma.trade.findMany({
+      where: { parentTradeId: Number(id) },
+      orderBy: { exitDate: "asc" },
+    }),
+  ]);
 
   if (!trade) notFound();
 
@@ -180,6 +186,48 @@ export default async function TradePage({ params }: Props) {
               <span className="font-bold text-green-400">${trade.reinvestSuggestion.toFixed(2)}</span>{" "}
               — 10% of this trade&apos;s P&amp;L — into your next position.
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* Partial sell history */}
+      {partialSells.length > 0 && (
+        <div className="mb-5">
+          <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">
+            Sell History ({partialSells.length} lot{partialSells.length !== 1 ? "s" : ""})
+          </h2>
+          <div className="overflow-x-auto rounded-xl border border-[#2a2a2a]">
+            <table className="w-full text-sm">
+              <thead className="bg-[#111] border-b border-[#2a2a2a]">
+                <tr>
+                  {["Date", isStock ? "Shares Sold" : "Contracts Sold", "Exit Price", "P&L", "Hold"].map((h) => (
+                    <th key={h} className="px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wide text-left whitespace-nowrap">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {partialSells.map((s, i) => (
+                  <tr key={s.id} className={`border-b border-[#2a2a2a] ${i % 2 === 0 ? "bg-[#1a1a1a]" : "bg-[#1e1e1e]"}`}>
+                    <td className="px-4 py-3 text-neutral-400 tabular-nums whitespace-nowrap">
+                      {s.exitDate ? new Date(s.exitDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—"}
+                    </td>
+                    <td className="px-4 py-3 text-neutral-300 tabular-nums">
+                      {parseFloat(s.contracts.toFixed(7)).toString()}
+                      <span className="ml-1 text-xs text-neutral-600">{isStock ? "sh" : "ct"}</span>
+                    </td>
+                    <td className="px-4 py-3 text-neutral-300 tabular-nums">
+                      {s.exitPrice != null ? `$${s.exitPrice.toFixed(isStock ? 4 : 2)}` : "—"}
+                    </td>
+                    <td className={`px-4 py-3 tabular-nums font-semibold ${(s.pnl ?? 0) >= 0 ? "text-green-400" : "text-red-400"}`}>
+                      {s.pnl != null ? `$${s.pnl.toFixed(2)}` : "—"}
+                    </td>
+                    <td className="px-4 py-3 text-neutral-500 tabular-nums">
+                      {s.holdDays != null ? `${s.holdDays}d` : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
