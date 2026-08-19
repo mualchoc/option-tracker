@@ -54,6 +54,7 @@ interface Props {
 export default function EquityCurveChart({ trades, startCapital }: Props) {
   const [range, setRange] = useState<TimeRange>("ALL");
   const [view, setView] = useState<ViewFilter>("ALL");
+  const [yMode, setYMode] = useState<"$" | "%">("$");
 
   const { chartData, wins, losses, totalPnl, winRate, count } = useMemo(() => {
     const closed = trades.filter(
@@ -69,9 +70,13 @@ export default function EquityCurveChart({ trades, startCapital }: Props) {
     );
 
     let running = 0;
+    const canPct = yMode === "%" && startCapital != null && startCapital > 0;
     const chartData = sorted.map((t) => {
       running += t.pnl!;
-      return { date: formatDate(t.exitDate!), cumPnl: +running.toFixed(2), ticker: t.ticker };
+      const cumPnl = canPct
+        ? +(running / startCapital! * 100).toFixed(3)
+        : +running.toFixed(2);
+      return { date: formatDate(t.exitDate!), cumPnl, ticker: t.ticker };
     });
 
     const wins   = filtered.filter((t) => (t.pnl ?? 0) > 0);
@@ -80,7 +85,7 @@ export default function EquityCurveChart({ trades, startCapital }: Props) {
     const winRate = filtered.length > 0 ? (wins.length / filtered.length) * 100 : 0;
 
     return { chartData, wins, losses, totalPnl, winRate, count: filtered.length };
-  }, [trades, range, view]);
+  }, [trades, range, view, yMode, startCapital]);
 
   const lastVal = chartData.length > 0 ? chartData[chartData.length - 1].cumPnl : 0;
   const strokeColor = lastVal >= 0 ? "#22c55e" : "#ef4444";
@@ -104,20 +109,39 @@ export default function EquityCurveChart({ trades, startCapital }: Props) {
             </button>
           ))}
         </div>
-        <div className="flex gap-1">
-          {RANGES.map((r) => (
-            <button
-              key={r}
-              onClick={() => setRange(r)}
-              className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
-                range === r
-                  ? "bg-[#2a2a2a] text-white"
-                  : "text-neutral-500 hover:text-neutral-300"
-              }`}
-            >
-              {r}
-            </button>
-          ))}
+        <div className="flex items-center gap-3">
+          {startCapital != null && startCapital > 0 && (
+            <div className="flex items-center gap-1 border border-[#2a2a2a] rounded px-1">
+              {(["$", "%"] as const).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setYMode(m)}
+                  className={`px-2.5 py-0.5 rounded text-xs font-semibold transition-colors cursor-pointer ${
+                    yMode === m
+                      ? "bg-[#3a3a3a] text-white"
+                      : "text-neutral-500 hover:text-neutral-300"
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          )}
+          <div className="flex gap-1">
+            {RANGES.map((r) => (
+              <button
+                key={r}
+                onClick={() => setRange(r)}
+                className={`px-3 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
+                  range === r
+                    ? "bg-[#2a2a2a] text-white"
+                    : "text-neutral-500 hover:text-neutral-300"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -144,14 +168,17 @@ export default function EquityCurveChart({ trades, startCapital }: Props) {
               interval="preserveStartEnd"
             />
             <YAxis
-              tickFormatter={(v) => `$${v}`}
+              tickFormatter={(v) => yMode === "%" ? `${Number(v).toFixed(1)}%` : `$${v}`}
               tick={{ fontSize: 11, fill: "#6b7280" }}
               axisLine={false}
               tickLine={false}
               width={70}
             />
             <Tooltip
-              formatter={(val) => [`$${Number(val).toFixed(2)}`, "Cumulative P&L"]}
+              formatter={(val) => [
+                yMode === "%" ? `${Number(val).toFixed(2)}%` : `$${Number(val).toFixed(2)}`,
+                "Cumulative P&L",
+              ]}
               contentStyle={{
                 background: "#1a1a1a",
                 border: "1px solid #2a2a2a",
