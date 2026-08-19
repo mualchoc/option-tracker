@@ -21,7 +21,7 @@ export default async function TradePage({ params }: Props) {
   const detailItems: [string, string][] = isStock
     ? [
         ["Ticker", trade.ticker],
-        ["Shares", String(trade.contracts ?? 1)],
+        ["Shares", parseFloat((trade.contracts ?? 1).toFixed(3)).toString()],
         ...(trade.executedPrice != null ? [["Entry Price", `$${trade.executedPrice}`] as [string, string]] : []),
         ["Entry Date", new Date(trade.entryDate).toLocaleDateString("en-US")],
         ...(trade.tradeFee != null ? [["Commission", `$${trade.tradeFee.toFixed(4)}`] as [string, string]] : []),
@@ -34,7 +34,7 @@ export default async function TradePage({ params }: Props) {
     : [
         ["Ticker", trade.ticker],
         ["Type", trade.type ?? "—"],
-        ["Contracts", String(trade.contracts ?? 1)],
+        ["Contracts", parseFloat((trade.contracts ?? 1).toFixed(3)).toString()],
         ...(trade.strike != null ? [["Strike", `$${trade.strike}`] as [string, string]] : []),
         ...(trade.executedPrice != null ? [["Executed Price", `$${trade.executedPrice}`] as [string, string]] : []),
         ...(trade.expiry ? [["Expiry", new Date(trade.expiry).toLocaleDateString("en-US")] as [string, string]] : []),

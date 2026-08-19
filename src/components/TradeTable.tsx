@@ -33,6 +33,8 @@ function StatusBadge({ trade }: { trade: Trade }) {
   );
 }
 
+const fmtQty = (n: number | null) => parseFloat((n ?? 1).toFixed(3)).toString();
+
 function pnlColor(t: Trade) {
   if (t.status === "OPEN") return "text-neutral-600";
   return (t.pnl ?? 0) > 0 ? "text-green-400 font-semibold" : "text-red-400 font-semibold";
@@ -70,7 +72,7 @@ function OptionRow({ t, i }: { t: Trade; i: number }) {
         {t.expiry ? new Date(t.expiry).toLocaleDateString("en-US") : "—"}
       </td>
       <td className={`${tdBase} text-neutral-300 tabular-nums`}>
-        {t.contracts ?? 1}
+        {fmtQty(t.contracts)}
       </td>
       <td className={`${tdBase} text-neutral-300 tabular-nums`}>
         ${entryPrice?.toFixed(4) ?? "—"}
@@ -100,7 +102,7 @@ function StockRow({ t, i }: { t: Trade; i: number }) {
         </Link>
       </td>
       <td className={`${tdBase} text-neutral-300 tabular-nums`}>
-        {t.contracts ?? 1}
+        {fmtQty(t.contracts)}
       </td>
       <td className={`${tdBase} text-neutral-300 tabular-nums`}>
         ${entryPrice?.toFixed(4) ?? "—"}
